@@ -23,7 +23,11 @@ export const useCreateMyUSer = () => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create user");
+      if (response.status === 401) {
+        throw new Error("Unauthorized: User authentication failed.");
+      } else {
+        throw new Error("Failed to create user: " + response.statusText);
+      }
     }
   };
 
